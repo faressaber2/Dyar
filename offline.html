@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>لا يوجد اتصال — ديار</title>
+<meta name="theme-color" content="#0a1628">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --navy: #0a1628;
+    --navy-mid: #1a2f5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--navy); }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    direction: rtl;
+    overflow: hidden;
+    position: relative;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* خلفية نجمية متحركة */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: var(--op, 0.6); transform: scale(1); }
+  }
+
+  /* موجة في الأسفل */
+  .wave-bg {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(to top, rgba(201,168,76,0.06), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 32px 24px;
+    max-width: 420px;
+    width: 100%;
+    animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* أيقونة الواي فاي المقطوع */
+  .wifi-icon-wrap {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 28px;
+    background: linear-gradient(135deg, rgba(201,168,76,.15), rgba(201,168,76,.05));
+    border: 2px solid rgba(201,168,76,.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse-ring 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.25); }
+    50%       { box-shadow: 0 0 0 18px rgba(201,168,76,0); }
+  }
+
+  .wifi-svg {
+    width: 58px;
+    height: 58px;
+    opacity: 0.9;
+  }
+
+  /* شريط الخط المائل */
+  .slash-line {
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(231,76,60,0.5);
+  }
+
+  /* شعار التطبيق */
+  .app-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,.12);
+    border: 1px solid rgba(201,168,76,.35);
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+
+  .app-dot {
+    width: 7px; height: 7px;
+    background: #e74c3c;
+    border-radius: 50%;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 40%, var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  /* بطاقة الخطوات */
+  .steps-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 28px;
+    text-align: right;
+  }
+
+  .steps-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+  }
+  .step-item:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 26px; height: 26px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 900;
+    color: var(--navy);
+    flex-shrink: 0;
+  }
+
+  /* أزرار */
+  .btn-retry {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+    box-shadow: 0 6px 24px rgba(201,168,76,.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .btn-retry:hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(201,168,76,.45); }
+  .btn-retry:active { transform: scale(0.97); opacity: 0.9; }
+  .btn-retry.loading { opacity: 0.7; pointer-events: none; }
+
+  .btn-retry .spin-icon {
+    display: none;
+    animation: spin 0.8s linear infinite;
+  }
+  .btn-retry.loading .spin-icon { display: inline-block; }
+  .btn-retry.loading .retry-icon { display: none; }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* عداد إعادة المحاولة */
+  .auto-retry {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 8px;
+    min-height: 18px;
+    text-align: center;
+  }
+  .auto-retry span { color: var(--gold-light); font-weight: 700; }
+
+  /* شريط الحالة السفلي */
+  .status-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(201,168,76,.1);
+    border-top: 1px solid rgba(201,168,76,.2);
+    padding: 10px 20px calc(10px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    z-index: 10;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: #e74c3c;
+    border-radius: 50%;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- نجوم الخلفية -->
+<div class="stars" id="stars"></div>
+<div class="wave-bg"></div>
+
+<div class="container">
+
+  <!-- شارة التطبيق -->
+  <div class="app-badge">
+    <div class="app-dot"></div>
+    منصة ديار العقارية
+  </div>
+
+  <!-- أيقونة الواي فاي -->
+  <div class="wifi-icon-wrap" id="wifiIconWrap">
+    <svg class="wifi-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 6C3.78 3.56 7.24 2 11.99 2C16.74 2 20.22 3.56 23 6" stroke="rgba(201,168,76,0.4)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4.5 9.5C6.5 7.67 9.1 6.5 12 6.5C14.9 6.5 17.5 7.67 19.5 9.5" stroke="rgba(201,168,76,0.55)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 13C9.33 11.75 10.58 11 12 11C13.42 11 14.67 11.75 16 13" stroke="rgba(201,168,76,0.75)" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="17" r="1.5" fill="var(--gold)"/>
+    </svg>
+    <div class="slash-line" id="slashLine"></div>
+  </div>
+
+  <!-- العنوان -->
+  <h1 id="pageTitle">لا يوجد اتصال بالإنترنت</h1>
+
+  <p class="subtitle" id="pageSubtitle">
+    تطبيق ديار يحتاج إلى اتصال بالإنترنت<br>
+    للوصول إلى أحدث الإعلانات العقارية.
+  </p>
+
+  <!-- خطوات الحل -->
+  <div class="steps-card">
+    <div class="steps-title" id="stepsTitle">💡 تحقق من الإنترنت</div>
+    <div class="step-item">
+      <div class="step-num">١</div>
+      <span id="step1Text">تأكد من تفعيل الواي فاي أو بيانات الجوال</span>
+    </div>
+    <div class="step-item">
+      <div class="step-num">٢</div>
+      <span id="step2Text">أعد تشغيل الراوتر أو وضع الطيران</span>
+    </div>
+    <div class="step-item">
+      <div class="step-num">٣</div>
+      <span id="step3Text">تحقق من أن الاتصال يعمل بشكل سليم</span>
+    </div>
+  </div>
+
+  <!-- زر إعادة المحاولة -->
+  <button class="btn-retry" id="retryBtn" onclick="retryConnection()">
+    <span class="retry-icon">🔄</span>
+    <span class="spin-icon">⟳</span>
+    إعادة المحاولة
+  </button>
+
+  <div class="auto-retry" id="autoRetryMsg"></div>
+</div>
+
+<!-- شريط الحالة -->
+<div class="status-bar">
+  <div class="status-dot"></div>
+  <span id="statusBarText">غير متصل — ديار يحتاج اتصال إنترنت للعمل</span>
+</div>
+
+<script>
+/* ── تحديد الحالة: انقطاع كامل أم اتصال ضعيف ── */
+var _params = new URLSearchParams(window.location.search);
+var _isWeak = _params.get('reason') === 'weak';
+
+(function applyReasonText(){
+  if(!_isWeak) return; // النصوص الافتراضية في HTML تخص حالة الانقطاع الكامل
+  document.getElementById('pageTitle').textContent = 'الاتصال ضعيف جداً';
+  document.getElementById('pageSubtitle').innerHTML = 'الاتصال ضعيف جداً، يرجى التحقق من الشبكة أو المحاولة لاحقاً';
+  document.getElementById('statusBarText').textContent = 'اتصال ضعيف — يرجى التحقق من الشبكة أو المحاولة لاحقاً';
+  document.getElementById('stepsTitle').textContent = '💡 لتحسين سرعة الاتصال';
+  document.getElementById('step1Text').textContent = 'اقترب من جهاز الواي فاي أو انتقل لمكان به تغطية أفضل';
+  document.getElementById('step2Text').textContent = 'تأكد من عدم تحميل تطبيقات أخرى للإنترنت في الخلفية';
+  document.getElementById('step3Text').textContent = 'حاول التبديل بين الواي فاي وبيانات الجوال';
+  var slash = document.getElementById('slashLine');
+  if(slash){ slash.style.opacity = '0.45'; } // خط مائل أخف لأن الاتصال موجود لكنه ضعيف وليس منقطعاً تماماً
+  document.title = 'اتصال ضعيف — ديار';
+})();
+
+/* ── توليد النجوم ── */
+(function(){
+  var container = document.getElementById('stars');
+  for(var i = 0; i < 60; i++){
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = [
+      'width:' + size + 'px',
+      'height:' + size + 'px',
+      'top:' + Math.random() * 100 + '%',
+      'left:' + Math.random() * 100 + '%',
+      '--dur:' + (2 + Math.random() * 4) + 's',
+      '--delay:-' + Math.random() * 4 + 's',
+      '--op:' + (0.3 + Math.random() * 0.5)
+    ].join(';');
+    container.appendChild(s);
+  }
+})();
+
+/* ── عداد إعادة المحاولة التلقائية ── */
+var _retryCount = 0;
+var _retryTimer = null;
+var _retrySeconds = 15;
+
+function startAutoRetry(){
+  clearInterval(_retryTimer);
+  var remaining = _retrySeconds;
+  updateRetryMsg(remaining);
+  _retryTimer = setInterval(function(){
+    remaining--;
+    if(remaining <= 0){
+      clearInterval(_retryTimer);
+      retryConnection();
+    } else {
+      updateRetryMsg(remaining);
+    }
+  }, 1000);
+}
+
+function updateRetryMsg(sec){
+  var el = document.getElementById('autoRetryMsg');
+  if(el) el.innerHTML = 'إعادة المحاولة تلقائياً خلال <span>' + sec + '</span> ثانية';
+}
+
+/* ── إعادة المحاولة ── */
+var WEAK_LATENCY_THRESHOLD_MS = 1800; // أعلى من هذا = لا يزال ضعيفاً
+
+function retryConnection(){
+  clearInterval(_retryTimer);
+  _retryCount++;
+  var btn = document.getElementById('retryBtn');
+  var msg = document.getElementById('autoRetryMsg');
+  if(btn) btn.classList.add('loading');
+  if(msg) msg.textContent = '⏳ جاري التحقق من الاتصال...';
+
+  /* فحص الاتصال بمحاولة جلب ملف صغير، مع قياس زمن الاستجابة */
+  var testUrl = 'https://www.google.com/favicon.ico?_=' + Date.now();
+  var startedAt = Date.now();
+  var img = new Image();
+  img.onload = function(){
+    var elapsed = Date.now() - startedAt;
+    if(btn) btn.classList.remove('loading');
+    if(_isWeak && elapsed > WEAK_LATENCY_THRESHOLD_MS){
+      /* الاتصال موجود لكن لا يزال ضعيفاً ❌ */
+      if(msg) msg.textContent = 'الاتصال لا يزال ضعيفاً، يرجى المحاولة لاحقاً';
+      _retrySeconds = Math.min(_retrySeconds + 5, 60);
+      startAutoRetry();
+      return;
+    }
+    /* الاتصال جيد الآن ✅ */
+    if(msg) msg.innerHTML = '✅ تم استعادة الاتصال! جاري التحويل...';
+    setTimeout(function(){ window.location.replace('/'); }, 800);
+  };
+  img.onerror = function(){
+    /* لا يزال منقطعاً ❌ */
+    if(btn) btn.classList.remove('loading');
+    _retrySeconds = Math.min(_retrySeconds + 5, 60);
+    startAutoRetry();
+  };
+  /* timeout بعد 6 ثوان */
+  setTimeout(function(){
+    img.src = '';
+    if(btn && btn.classList.contains('loading')){
+      btn.classList.remove('loading');
+      if(msg) msg.textContent = _isWeak ? 'الاتصال لا يزال ضعيفاً، يرجى المحاولة لاحقاً' : '❌ الاتصال غير متاح';
+      _retrySeconds = Math.min(_retrySeconds + 5, 60);
+      startAutoRetry();
+    }
+  }, 6000);
+  img.src = testUrl;
+}
+
+/* ── الاستماع لأحداث الاتصال (تنطبق فقط على حالة الانقطاع الكامل) ── */
+window.addEventListener('online', function(){
+  if(_isWeak) return; // حدث 'online' لا يعني أن الاتصال الضعيف أصبح قوياً، يُترك لـ retryConnection/العداد
+  document.getElementById('autoRetryMsg').innerHTML = '✅ عاد الاتصال! جاري التحويل...';
+  clearInterval(_retryTimer);
+  setTimeout(function(){ window.location.replace('/'); }, 600);
+});
+
+/* ── بدء العداد فور تحميل الصفحة ── */
+window.addEventListener('load', function(){
+  startAutoRetry();
+});
+</script>
+</body>
+</html>
