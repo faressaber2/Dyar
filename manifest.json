@@ -1,0 +1,81 @@
+{
+  "name": "ديار",
+  "short_name": "ديار",
+  "description": "منصة ديار العقارية — مطروح والساحل الشمالي",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "lifestyle",
+    "business"
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-1.png",
+      "sizes": "1080x2240",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "الصفحة الرئيسية — منصة ديار العقارية"
+    },
+    {
+      "src": "screenshots/screenshot-2.png",
+      "sizes": "1080x2240",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "تصفح شقق وبيوت وشاليهات للتمليك"
+    },
+    {
+      "src": "screenshots/screenshot-3.png",
+      "sizes": "1080x2240",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "سكن واستثمار — إيجار وتمليك وأراضي"
+    },
+    {
+      "src": "screenshots/screenshot-4.png",
+      "sizes": "1080x2240",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "خيارات المصيف — إيجار يومي وأسبوعي وشهري"
+    },
+    {
+      "src": "screenshots/screenshot-5.png",
+      "sizes": "1080x2240",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "تفاصيل العقار والتواصل المباشر"
+    }
+  ]
+}
