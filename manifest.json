@@ -4,7 +4,7 @@
   "description": "منصة ديار العقارية — مطروح والساحل الشمالي",
   "start_url": "/",
   "scope": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "display_override": ["fullscreen", "standalone"],
   "background_color": "#0a1628",
   "theme_color": "#0a1628",
