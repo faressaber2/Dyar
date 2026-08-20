@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "app.vercel.dyarapp.twa",
-        "sha256_cert_fingerprints": ["D3:6D:A8:01:72:5B:C4:C3:ED:2A:14:F0:BB:63:D8:21:12:7A:F6:6A:30:9F:BB:36:DE:C8:C6:DE:A4:04:7D:42"]
-      }
-    }]
